@@ -1,11 +1,19 @@
 package handler
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/maximka200/NotesWebApp/pkg/service"
+)
 
 type Handler struct {
+	services *service.Service
 }
 
-/// создаем маршуты и возвращаем router c init routes
+func NewHandler(serv *service.Service) *Handler {
+	return &Handler{services: serv}
+}
+
+// / создаем маршуты и возвращаем router c init routes
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 	// POST - добавить в db новое, PUT - обноновить старое
