@@ -11,8 +11,8 @@ type AuthService struct {
 	repo repository.Authorization
 }
 
-func NewAuthService(rrepo repository.Repository) *AuthService {
-	return &AuthService{}
+func NewAuthService(repo repository.Authorization) *AuthService {
+	return &AuthService{repo: repo}
 }
 
 func (s *AuthService) CreateUser(user todo.User) (int, error) {

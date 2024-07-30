@@ -14,15 +14,17 @@ import (
 )
 
 func main() {
+	// задаем формат логгов в виде json
 	logrus.SetFormatter(new(logrus.JSONFormatter))
+	// проверяем конфиг
 	if err := InitConfig(); err != nil {
 		logrus.Fatalf("config initialization error: %s", err.Error())
 	}
-
+	// проверяем загрузку .env
 	if err := godotenv.Load(); err != nil {
 		logrus.Fatalf("error loading env: %s", err.Error())
 	}
-
+	//поднимаем дб
 	db, err := repository.NewPostgresDb(repository.Config{
 		Host:     viper.GetString("db.host"),
 		Port:     viper.GetString("db.port"),
@@ -41,7 +43,7 @@ func main() {
 	handlers := handler.NewHandler(services)
 
 	srv := new(todo.Server)
-	if err := srv.Run(viper.GetString("8800"), handlers.InitRoutes()); err != nil {
+	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
 		logrus.Fatalf("error occured while running http server: %s", err.Error())
 	}
 }

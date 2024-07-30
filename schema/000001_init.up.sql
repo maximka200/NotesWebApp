@@ -1,23 +1,3 @@
---Пользователь может иметь несколько списков (многие-ко-многим).
---Список может быть связан с несколькими пользователями (многие-ко-многим).
---Список может иметь несколько задач (многие-ко-многим).
---Задача может быть связана с несколькими списками (многие-ко-многим).
-
-CREATE TABLE users_lists
-(
-    id serial not null unique,
-    user_id int references users (id) on delete cascade not null,
-    list_id int references todo_list (id) on delete cascade not null
-);
-
-CREATE TABLE items_lists
-(
-    id serial not null unique,
-    item_id int references todo_items (id) on delete cascade not null,
-    list_id int references todo_list (id) on delete cascade not null,
-    done boolean not null default false
-);
-
 CREATE TABLE users
 (
     id serial not null unique,
@@ -33,11 +13,25 @@ CREATE TABLE todo_list
     description varchar(255)
 );
 
-
 CREATE TABLE todo_items
 (
     id serial not null unique,
     title varchar(255) not null,
     description varchar(255),
+    done boolean not null default false
+);
+
+CREATE TABLE users_lists
+(
+    id serial not null unique,
+    user_id int references users (id) on delete cascade not null,
+    list_id int references todo_list (id) on delete cascade not null
+);
+
+CREATE TABLE items_lists
+(
+    id serial not null unique,
+    item_id int references todo_items (id) on delete cascade not null,
+    list_id int references todo_list (id) on delete cascade not null,
     done boolean not null default false
 );
