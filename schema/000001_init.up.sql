@@ -4,6 +4,7 @@ CREATE TABLE users_lists
     user_id int references users (id) on delete cascade not null,
     list_id int references todo_list (id) on delete cascade not null
 );
+
 CREATE TABLE items_lists
 (
     id serial not null unique,
@@ -11,6 +12,7 @@ CREATE TABLE items_lists
     list_id int references todo_list (id) on delete cascade not null,
     done boolean not null default false
 );
+
 CREATE TABLE users
 (
     id serial not null unique,
