@@ -16,7 +16,6 @@ func NewHandler(serv *service.Service) *Handler {
 // / создаем маршуты и возвращаем router c init routes
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
-	// POST - добавить в db новое, PUT - обноновить старое
 	auth := router.Group("/auth")
 	{
 		auth.POST("/sign-up", h.singUp)
@@ -25,7 +24,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	api := router.Group("/api")
 	{
-		lists := api.Group("/lists")
+		lists := api.Group("/lists", h.userIdentity)
 		{
 			lists.POST("/", h.createList)
 			lists.GET("/", h.getAllLists)

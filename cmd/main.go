@@ -24,7 +24,7 @@ func main() {
 	if err := godotenv.Load(); err != nil {
 		logrus.Fatalf("error loading env: %s", err.Error())
 	}
-	//поднимаем дб
+	// поднимаем дб
 	db, err := repository.NewPostgresDb(repository.Config{
 		Host:     viper.GetString("db.host"),
 		Port:     viper.GetString("db.port"),
@@ -36,12 +36,12 @@ func main() {
 	if err != nil {
 		logrus.Fatalf("failed to init db: %s", err.Error())
 	}
-
+	// инициализируем главные сущности для работы с логикой
 	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
 	/// *gin.Engine реализует интерфейс http.Handler
 	handlers := handler.NewHandler(services)
-
+	// инициализируем end-points
 	srv := new(todo.Server)
 	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
 		logrus.Fatalf("error occured while running http server: %s", err.Error())

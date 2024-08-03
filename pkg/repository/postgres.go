@@ -15,6 +15,7 @@ type Config struct {
 	SSLMode  string
 }
 
+// функция создания db c данными из конфига
 func NewPostgresDb(cfg Config) (*sqlx.DB, error) {
 	db, err := sqlx.Open("postgres",
 		fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
